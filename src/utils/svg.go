@@ -14,15 +14,13 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 	var svg string
 
 	svg += `<svg width="` + str(width) + `" height="` + str(height) + `" viewBox="0 0 ` + str(width) + ` ` + str(height) + `" fill="none" xmlns="http://www.w3.org/2000/svg">`
-	svg += `<rect width="` + str(width) + `" height="` + str(height) + `" fill="#2D2D2D"/>`
+	svg += `<rect width="` + str(width) + `" height="` + str(height) + `" fill="` + theme.BgColor + `"/>`
 
 	// Profile image
-	if stackStats.ImageUrl != "" {
-		svg += ` <image x="16" y="10" href="` + stackStats.ImageUrl + `" height="24" width="24"/>`
-	}
+	svg += generateImage(stackStats)
 
 	// Reputation
-	svg += `<text x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="#C4CCBC" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumber(stackStats.Reputation) + `</text>`
+	svg += getReputation(stackStats, theme, height, fontSize)
 
 	// Gold
 	svg += generateBadge(badgeStartPosPx, height/2, stackStats.Gold, fontSize, theme.Gold)
@@ -35,6 +33,18 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 
 	svg += `</svg>`
 
+	return svg
+}
+
+func getReputation(stackStats structs.Stats, theme structs.Theme, height int, fontSize int) string {
+	svg := `<text x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumber(stackStats.Reputation) + `</text>`
+	return svg
+}
+
+func generateImage(stackStats structs.Stats) (svg string) {
+	if stackStats.ImageUrl != "" {
+		svg += ` <image x="16" y="10" href="` + stackStats.ImageUrl + `" height="24" width="24"/>`
+	}
 	return svg
 }
 

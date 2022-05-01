@@ -1,10 +1,11 @@
 package structs
 
 type Theme struct {
-	Gold    string `json:"gold"`
-	Silver  string `json:"silver"`
-	Bronze  string `json:"text_color"`
-	BgColor string `json:"bg_color"`
+	Gold      string `json:"gold"`
+	Silver    string `json:"silver"`
+	Bronze    string `json:"bronze"`
+	BgColor   string `json:"bg_color"`
+	TextColor string `json:"text_color"`
 }
 
 type Stats struct {
