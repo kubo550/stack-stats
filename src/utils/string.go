@@ -7,6 +7,7 @@ import (
 
 func formatNumber(number int) string {
 	if number > 10000 {
+		//		return fmt.Sprintf("%.1fk", float64(number)/1000)
 		return fmt.Sprintf("%dk", number/1000)
 	}
 	if number > 1000 {
