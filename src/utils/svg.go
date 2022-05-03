@@ -13,7 +13,7 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 
 	var svg string
 
-	svg += `<svg width="` + str(width) + `" height="` + str(height) + `" viewBox="0 0 ` + str(width) + ` ` + str(height) + `" fill="none" xmlns="http://www.w3.org/2000/svg">`
+	svg += `<svg data-testUserId="` + stackStats.ID + `" width="` + str(width) + `" height="` + str(height) + `" viewBox="0 0 ` + str(width) + ` ` + str(height) + `" fill="none" xmlns="http://www.w3.org/2000/svg">`
 	svg += `<rect width="` + str(width) + `" height="` + str(height) + `" fill="` + theme.BgColor + `"/>`
 
 	// Profile image
@@ -23,13 +23,13 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 	svg += displayReputation(stackStats, theme, height, fontSize)
 
 	// Gold
-	svg += generateBadge(badgeStartPosPx, height/2, stackStats.Gold, fontSize, theme.Gold)
+	svg += generateBadge("gold", badgeStartPosPx, height/2, stackStats.Gold, fontSize, theme.Gold)
 
 	// Silver
-	svg += generateBadge(badgeStartPosPx+badgesGap, height/2, stackStats.Silver, fontSize, theme.Silver)
+	svg += generateBadge("silver", badgeStartPosPx+badgesGap, height/2, stackStats.Silver, fontSize, theme.Silver)
 
 	// Bronze
-	svg += generateBadge(badgeStartPosPx+2*badgesGap, height/2, stackStats.Bronze, fontSize, theme.Bronze)
+	svg += generateBadge("bronze", badgeStartPosPx+2*badgesGap, height/2, stackStats.Bronze, fontSize, theme.Bronze)
 
 	svg += `</svg>`
 
@@ -48,7 +48,7 @@ func generateImage(stackStats structs.Stats) (svg string) {
 	return svg
 }
 
-func generateBadge(xPos, yPos, count, fontSize int, color string) string {
+func generateBadge(id string, xPos, yPos, count, fontSize int, color string) string {
 	svg := ""
 	if count == 0 {
 		return svg
@@ -58,7 +58,7 @@ func generateBadge(xPos, yPos, count, fontSize int, color string) string {
 	const radius = 3
 
 	svg += `<circle text-anchor="middle" dominant-baseline="middle" cx="` + str(xPos) + `" cy="` + str(yPos) + `" r="` + str(radius) + `" fill="` + color + `"/>`
-	svg += `<text x="` + str(xPos+gap) + `" y="` + str(yPos) + `" font-size="` + str(fontSize) + `" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="` + color + `">` + formatNumber(count) + `</text>`
+	svg += `<text data-testId=` + id + `x="` + str(xPos+gap) + `" y="` + str(yPos) + `" font-size="` + str(fontSize) + `" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="` + color + `">` + formatNumber(count) + `</text>`
 
 	return svg
 

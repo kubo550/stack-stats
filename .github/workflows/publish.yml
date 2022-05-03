@@ -1,0 +1,21 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        uses: gopkg.in/src-d/go-billy.v4/test@v1
+        with:
+          - go-test
+          - ./...
+          - -v
+          - -run=Test
+          - -timeout=10m
