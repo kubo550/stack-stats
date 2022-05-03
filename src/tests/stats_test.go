@@ -42,7 +42,7 @@ func TestStatsRoute(t *testing.T) {
 
 		body, err := ioutil.ReadAll(resp.Body)
 		assert.NoError(t, err)
-		assert.Contains(t, string(body), "<svg width=\"158\" height=\"47\" viewBox=\"0 0 158 47\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">")
+		assert.Contains(t, string(body), "width=\"158\" height=\"47\" viewBox=\"0 0 158 47\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">")
 	})
 
 	t.Run("should response body contain userId", func(t *testing.T) {
