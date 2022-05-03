@@ -19,16 +19,17 @@ func GetStackStats(userId string) structs.Stats {
 	}
 
 	resp, err := client.Do(req)
-	if err != nil {
-		panic(err)
-	}
 
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			panic(err)
+
 		}
 	}(resp.Body)
+
+	if err != nil {
+		panic(err)
+	}
 
 	responseBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
