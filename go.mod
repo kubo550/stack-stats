@@ -1,7 +1,7 @@
 module stats
 
 // +heroku goVersion go1.15.0
-go 1.18.1
+go 1.18
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
