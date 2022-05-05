@@ -1,6 +1,6 @@
 module stats
 
-// +heroku goVersion go1.12.0
+// +heroku goVersion go1.15.0
 go 1.18.1
 
 require (
