@@ -23,13 +23,13 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 	svg += displayReputation(stackStats, theme, height, fontSize)
 
 	// Gold
-	svg += generateBadge("gold", badgeStartPosPx, height/2, stackStats.Gold, fontSize, theme.Gold)
+	svg += generateBadge("Gold", badgeStartPosPx, height/2, stackStats.Gold, fontSize, theme.Gold)
 
 	// Silver
-	svg += generateBadge("silver", badgeStartPosPx+badgesGap, height/2, stackStats.Silver, fontSize, theme.Silver)
+	svg += generateBadge("Silver", badgeStartPosPx+badgesGap, height/2, stackStats.Silver, fontSize, theme.Silver)
 
 	// Bronze
-	svg += generateBadge("bronze", badgeStartPosPx+2*badgesGap, height/2, stackStats.Bronze, fontSize, theme.Bronze)
+	svg += generateBadge("Bronze", badgeStartPosPx+2*badgesGap, height/2, stackStats.Bronze, fontSize, theme.Bronze)
 
 	svg += `</svg>`
 
@@ -37,19 +37,18 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 }
 
 func displayReputation(stackStats structs.Stats, theme structs.Theme, height int, fontSize int) string {
-	svg := `<text x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumber(stackStats.Reputation) + `</text>`
+	svg := `<text data-testReputation="` + str(stackStats.Reputation) + `"  x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumber(stackStats.Reputation) + `</text>`
 	return svg
 }
 
 func generateImage(stackStats structs.Stats) (svg string) {
 	if stackStats.ImageUrl != "" {
-		svg += ` <image x="16" y="10" href="` + stackStats.ImageUrl + `" height="24" width="24"/>`
+		svg += ` <image data-testImageUrl="` + stackStats.ImageUrl + `" x="16" y="10" href="` + stackStats.ImageUrl + `" height="24" width="24"/>`
 	}
 	return svg
 }
 
-func generateBadge(id string, xPos, yPos, count, fontSize int, color string) string {
-	svg := ""
+func generateBadge(id string, xPos, yPos, count, fontSize int, color string) (svg string) {
 	if count == 0 {
 		return svg
 	}
@@ -58,7 +57,7 @@ func generateBadge(id string, xPos, yPos, count, fontSize int, color string) str
 	const radius = 3
 
 	svg += `<circle text-anchor="middle" dominant-baseline="middle" cx="` + str(xPos) + `" cy="` + str(yPos) + `" r="` + str(radius) + `" fill="` + color + `"/>`
-	svg += `<text data-testId=` + id + `x="` + str(xPos+gap) + `" y="` + str(yPos) + `" font-size="` + str(fontSize) + `" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="` + color + `">` + formatNumber(count) + `</text>`
+	svg += `<text data-testBadge` + id + `="` + str(count) + `" x="` + str(xPos+gap) + `" y="` + str(yPos) + `" font-size="` + str(fontSize) + `" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="` + color + `">` + formatNumber(count) + `</text>`
 
 	return svg
 

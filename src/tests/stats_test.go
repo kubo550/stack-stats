@@ -2,16 +2,26 @@ package routes
 
 import (
 	"github.com/stretchr/testify/assert"
+	"gopkg.in/h2non/gock.v1"
 	"io/ioutil"
 	"net/http/httptest"
 	"stats/src/middleware"
 	"stats/src/routes"
+	"stats/src/structs"
+	"stats/src/tests/builders"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func TestStatsRoute(t *testing.T) {
+
+	t.Cleanup(func() {
+		gock.OffAll()
+		gock.EnableNetworking()
+	})
+
+	gock.DisableNetworking()
 
 	app := fiber.New()
 	app.Use(middleware.StatsMiddleware())
@@ -27,6 +37,7 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should return svg content type", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().Build())
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 
 		resp, _ := app.Test(req)
@@ -35,8 +46,8 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should svg be correctly coded", func(t *testing.T) {
-		userId := "14513625"
-		req := httptest.NewRequest("GET", "/stats?id="+userId, nil)
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().Build())
+		req := httptest.NewRequest("GET", "/stats?id=-1", nil)
 
 		resp, _ := app.Test(req)
 
@@ -46,14 +57,52 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should response body contain userId", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().Build())
 		userId := "14513625"
-		req := httptest.NewRequest("GET", "/stats?id="+userId, nil)
 
+		req := httptest.NewRequest("GET", "/stats?id="+userId, nil)
 		resp, _ := app.Test(req)
 
 		body, _ := ioutil.ReadAll(resp.Body)
 		assert.Contains(t, string(body), "data-testUserId=\""+userId+"\"")
 	})
 
-	//	todo: mock stackoverflow api
+	t.Run("should response body contain reputation", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithReputation(100).Build())
+
+		req := httptest.NewRequest("GET", "/stats?id=1", nil)
+		resp, _ := app.Test(req)
+
+		body, _ := ioutil.ReadAll(resp.Body)
+		assert.Contains(t, string(body), "data-testReputation=\"100\"")
+	})
+
+	t.Run("should response body contain badge", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithBadgeCounts(structs.BadgeCounts{
+			Gold:   2,
+			Silver: 4,
+			Bronze: 6,
+		}).Build())
+
+		req := httptest.NewRequest("GET", "/stats?id=1", nil)
+		resp, _ := app.Test(req)
+
+		body, _ := ioutil.ReadAll(resp.Body)
+		assert.Contains(t, string(body), "data-testBadgeGold=\"2\"")
+		assert.Contains(t, string(body), "data-testBadgeSilver=\"4\"")
+		assert.Contains(t, string(body), "data-testBadgeBronze=\"6\"")
+	})
+
+	t.Run("should response body contain image URL", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123").Build())
+
+		req := httptest.NewRequest("GET", "/stats?id=1", nil)
+		resp, _ := app.Test(req)
+
+		body, _ := ioutil.ReadAll(resp.Body)
+		assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123\"")
+	})
+
+	//	TODO: test with reputation and badge counts more than 1k
+
 }
