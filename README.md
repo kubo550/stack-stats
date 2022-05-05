@@ -13,7 +13,7 @@
 
 * ![fiber](https://img.shields.io/badge/Fiber-05122A?style=flat&logo=go)&nbsp; v2.32.0
 
-* ![gock](https://github.com/h2non/gock)&nbsp; v1.0
+* ![gock](https://img.shields.io/badge/gock-05122A?style=flat&logo=go)&nbsp; v1.0
 
 * ![stackexchange](https://img.shields.io/badge/stackexchange-05122A?style=flat&logo=stackexchange)&nbsp; API v2.3
 
