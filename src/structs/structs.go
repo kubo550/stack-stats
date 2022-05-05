@@ -30,3 +30,22 @@ type StackStats struct {
 		} `json:"badge_counts"`
 	} `json:"items"`
 }
+
+type BadgeCounts struct {
+	Bronze int `json:"bronze"`
+	Silver int `json:"silver"`
+	Gold   int `json:"gold"`
+}
+
+type StackResponse struct {
+	Items []struct {
+		BadgeCounts struct {
+			Bronze int `json:"bronze"`
+			Silver int `json:"silver"`
+			Gold   int `json:"gold"`
+		} `json:"badge_counts"`
+		Reputation   int    `json:"reputation"`
+		ProfileImage string `json:"profile_image"`
+		DisplayName  string `json:"display_name"`
+	} `json:"items"`
+}

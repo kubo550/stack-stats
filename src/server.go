@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"stats/src/consoleLog"
 	"stats/src/middleware"
 	"stats/src/routes"
 )
@@ -15,7 +16,7 @@ func main() {
 	app.Use(logger.New(logger.Config{
 		Format:     "${pid} ${status} - ${method} ${path}\n",
 		TimeFormat: "02-Jan-2006",
-		TimeZone:   "America/New_York",
+		TimeZone:   "Europe/Warsaw",
 	}))
 
 	app.Get("/", routes.HelloHandler)
@@ -24,9 +25,11 @@ func main() {
 	app.Use(middleware.StatsMiddleware())
 	app.Get("/stats", routes.StatsHandler)
 
-	err := app.Listen(":8080")
+	port := ":8080"
+	err := app.Listen(port)
 
 	if err != nil {
+		consoleLog.Error(err)
 		panic(err)
 	}
 }

@@ -1,11 +1,12 @@
 package routes
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"stats/src/consoleLog"
 )
 
 func HelloHandler(c *fiber.Ctx) error {
-	fmt.Println("New request")
-	return c.SendString("Hello, World!")
+	consoleLog.Info("HelloHandler - new request")
+
+	return c.Status(fiber.StatusOK).SendFile("README.md")
 }

@@ -11,7 +11,7 @@ import (
 	"stats/src/structs"
 )
 
-func GetStackStats(userId string) structs.Stats {
+func GetStackStats(userId string) (structs.Stats, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest(fiber.MethodGet, getStackApiUrl(userId), nil)
 	if err != nil {
@@ -42,6 +42,8 @@ func GetStackStats(userId string) structs.Stats {
 		log.Fatal(err)
 	}
 
+	// todo parse image url
+
 	return structs.Stats{
 		ID:         userId,
 		Name:       stackStats.Items[0].DisplayName,
@@ -50,7 +52,7 @@ func GetStackStats(userId string) structs.Stats {
 		Silver:     stackStats.Items[0].BadgeCounts.Silver,
 		Bronze:     stackStats.Items[0].BadgeCounts.Bronze,
 		ImageUrl:   stackStats.Items[0].ProfileImage,
-	}
+	}, nil
 }
 
 func getStackApiUrl(userId string) string {
