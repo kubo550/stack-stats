@@ -23,3 +23,13 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+        - uses: akhileshns/heroku-deploy@v3.12.12
+          with:
+            heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+            heroku_app_name: "stack-stats"
+            heroku_email: "qwercy142@gmail.com"
