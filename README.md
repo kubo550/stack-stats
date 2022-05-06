@@ -4,7 +4,6 @@
 
 ![stack stats](https://stack-stats.herokuapp.com/stats?id=14513625)
 
-![stack](http://127.0.0.1:40583/stats?id=14513625)
 
 ## What is this?
 
