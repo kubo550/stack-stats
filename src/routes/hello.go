@@ -8,5 +8,5 @@ import (
 func HelloHandler(c *fiber.Ctx) error {
 	consoleLog.Info("HelloHandler - new request")
 
-	return c.Status(fiber.StatusOK).SendFile("README.md")
+	return c.Status(fiber.StatusOK).SendString("After gh actions")
 }
