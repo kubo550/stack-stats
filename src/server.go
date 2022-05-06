@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"os"
 	"stats/src/consoleLog"
 	"stats/src/middleware"
 	"stats/src/routes"
@@ -26,8 +27,8 @@ func main() {
 	app.Get("/stats", routes.StatsHandler)
 
 	// default port from env
-	port := ":3000"
-	err := app.Listen(port)
+	port := os.Getenv("PORT")
+	err := app.Listen(":" + port)
 
 	if err != nil {
 		consoleLog.Error(err)

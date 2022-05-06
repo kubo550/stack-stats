@@ -104,7 +104,13 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should format reputation when it is a large number", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithReputation(1000000).Build())
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithReputation(25_500).Build())
+
+		req := httptest.NewRequest("GET", "/stats?id=1", nil)
+		resp, _ := app.Test(req)
+
+		body, _ := ioutil.ReadAll(resp.Body)
+		assert.Contains(t, string(body), "data-testReputation=\"25,5\"")
 	})
 
 }
