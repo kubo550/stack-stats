@@ -103,6 +103,8 @@ func TestStatsRoute(t *testing.T) {
 		assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123\"")
 	})
 
-	//	TODO: test with reputation and badge counts more than 1k
+	t.Run("should format reputation when it is a large number", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithReputation(1000000).Build())
+	})
 
 }
