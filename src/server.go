@@ -25,7 +25,8 @@ func main() {
 	app.Use(middleware.StatsMiddleware())
 	app.Get("/stats", routes.StatsHandler)
 
-	port := ":8080"
+	// default port from env
+	port := ":3000"
 	err := app.Listen(port)
 
 	if err != nil {
