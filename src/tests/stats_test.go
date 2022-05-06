@@ -37,7 +37,7 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should return svg content type", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().Build())
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().Build())
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 
 		resp, _ := app.Test(req)
@@ -46,18 +46,18 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should svg be correctly coded", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().Build())
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().Build())
 		req := httptest.NewRequest("GET", "/stats?id=-1", nil)
 
 		resp, _ := app.Test(req)
 
 		body, err := ioutil.ReadAll(resp.Body)
 		assert.NoError(t, err)
-		assert.Contains(t, string(body), "width=\"158\" height=\"47\" viewBox=\"0 0 158 47\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">")
+		assert.Contains(t, string(body), "width=\"158\" height=\"47\" viewBox=\"0 0 158 47\" fill=\"none\" xmlns=\"http://www.w3.org/fiber.StatusOK/svg\">")
 	})
 
 	t.Run("should response body contain userId", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().Build())
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().Build())
 		userId := "14513625"
 
 		req := httptest.NewRequest("GET", "/stats?id="+userId, nil)
@@ -68,7 +68,7 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should response body contain reputation", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithReputation(100).Build())
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithReputation(100).Build())
 
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 		resp, _ := app.Test(req)
@@ -78,7 +78,7 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should response body contain badge", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithBadgeCounts(structs.BadgeCounts{
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithBadgeCounts(structs.BadgeCounts{
 			Gold:   2,
 			Silver: 4,
 			Bronze: 6,
@@ -94,7 +94,7 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should response body contain image URL", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123").Build())
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123").Build())
 
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 		resp, _ := app.Test(req)
@@ -103,14 +103,24 @@ func TestStatsRoute(t *testing.T) {
 		assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123\"")
 	})
 
-	t.Run("should format reputation when it is a large number", func(t *testing.T) {
-		builders.StackExchangeWillRespondWith(200, builders.NewStackResponseBuilder().WithReputation(25_500).Build())
+	t.Run("should format reputation with comma when it is a more than 1000", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithReputation(1500).Build())
 
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 		resp, _ := app.Test(req)
 
 		body, _ := ioutil.ReadAll(resp.Body)
-		assert.Contains(t, string(body), "data-testReputation=\"25,5\"")
+		assert.Contains(t, string(body), "data-testReputation=\"1,500\"")
+	})
+
+	t.Run("should format reputation when it is a more than 10 000", func(t *testing.T) {
+		builders.StackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithReputation(26500).Build())
+
+		req := httptest.NewRequest("GET", "/stats?id=1", nil)
+		resp, _ := app.Test(req)
+
+		body, _ := ioutil.ReadAll(resp.Body)
+		assert.Contains(t, string(body), "data-testReputation=\"26.5k\"")
 	})
 
 }

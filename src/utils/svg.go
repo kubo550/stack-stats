@@ -37,7 +37,7 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 }
 
 func displayReputation(stackStats structs.Stats, theme structs.Theme, height int, fontSize int) string {
-	svg := `<text data-testReputation="` + str(stackStats.Reputation) + `"  x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumber(stackStats.Reputation) + `</text>`
+	svg := `<text data-testReputation="` + formatNumber(stackStats.Reputation) + `"  x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumber(stackStats.Reputation) + `</text>`
 	return svg
 }
 
