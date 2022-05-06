@@ -12,7 +12,7 @@ import (
 func main() {
 	app := fiber.New()
 
-	//app.Use(middleware.MethodMiddleware())
+	app.Use(middleware.MethodMiddleware())
 
 	app.Use(logger.New(logger.Config{
 		Format:     "${pid} ${status} - ${method} ${path}\n",
@@ -26,7 +26,6 @@ func main() {
 	app.Use(middleware.StatsMiddleware())
 	app.Get("/stats", routes.StatsHandler)
 
-	// default port from env
 	port := os.Getenv("PORT")
 	err := app.Listen(":" + port)
 

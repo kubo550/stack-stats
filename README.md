@@ -10,7 +10,19 @@
 
 ## How do I use it?
 
+The only thing you need to do is to add the following code to your page:
 
+```md
+![stack stats](https://stack-stats.herokuapp.com/stats?id=<id>)
+```
+
+Important note: the `id` is the id of the stack you want to display.
+
+In my case, I have a stack with id 14513625.
+
+```md
+![stack stats](https://stack-stats.herokuapp.com/stats?id=14513625)
+```
 
 ## Tech Stack
 
