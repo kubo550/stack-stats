@@ -1,26 +1,10 @@
 package builders
 
 import (
-	"gopkg.in/h2non/gock.v1"
 	"stats/src/structs"
 )
 
-func StackExchangeWillRespondWith(status int, response structs.StackResponse) {
-	gock.New("https://api.stackexchange.com").
-		Get("/2.3/users/*").
-		Reply(status).
-		JSON(response)
-}
-
-type StackResponseBuilder interface {
-	WithName(name string) StackResponseBuilder
-	WithReputation(reputation int) StackResponseBuilder
-	WithBadgeCounts(badgeCounts structs.BadgeCounts) StackResponseBuilder
-	WithImageUrl(imgUrl string) StackResponseBuilder
-	Build() structs.StackResponse
-}
-
-func NewStackResponseBuilder() StackResponseBuilder {
+func NewStackResponseBuilder() structs.StackResponseBuilder {
 	// default values
 	return &stackResponseBuilderImpl{
 		name:       "John Doe",
@@ -41,22 +25,22 @@ type stackResponseBuilderImpl struct {
 	imgUrl      string
 }
 
-func (b *stackResponseBuilderImpl) WithName(name string) StackResponseBuilder {
+func (b *stackResponseBuilderImpl) WithName(name string) structs.StackResponseBuilder {
 	b.name = name
 	return b
 }
 
-func (b *stackResponseBuilderImpl) WithReputation(reputation int) StackResponseBuilder {
+func (b *stackResponseBuilderImpl) WithReputation(reputation int) structs.StackResponseBuilder {
 	b.reputation = reputation
 	return b
 }
 
-func (b *stackResponseBuilderImpl) WithBadgeCounts(badgeCounts structs.BadgeCounts) StackResponseBuilder {
+func (b *stackResponseBuilderImpl) WithBadgeCounts(badgeCounts structs.BadgeCounts) structs.StackResponseBuilder {
 	b.badgeCounts = badgeCounts
 	return b
 }
 
-func (b *stackResponseBuilderImpl) WithImageUrl(imgUrl string) StackResponseBuilder {
+func (b *stackResponseBuilderImpl) WithImageUrl(imgUrl string) structs.StackResponseBuilder {
 	b.imgUrl = imgUrl
 	return b
 }

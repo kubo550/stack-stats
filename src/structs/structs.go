@@ -49,3 +49,11 @@ type StackResponse struct {
 		DisplayName  string `json:"display_name"`
 	} `json:"items"`
 }
+
+type StackResponseBuilder interface {
+	WithName(name string) StackResponseBuilder
+	WithReputation(reputation int) StackResponseBuilder
+	WithBadgeCounts(badgeCounts BadgeCounts) StackResponseBuilder
+	WithImageUrl(imgUrl string) StackResponseBuilder
+	Build() StackResponse
+}

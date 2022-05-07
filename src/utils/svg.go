@@ -37,7 +37,7 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 }
 
 func displayReputation(stackStats structs.Stats, theme structs.Theme, height int, fontSize int) string {
-	svg := `<text data-testReputation="` + formatNumber(stackStats.Reputation) + `"  x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumber(stackStats.Reputation) + `</text>`
+	svg := `<text data-testReputation="` + formatNumberWithComma(stackStats.Reputation) + `"  x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumberWithComma(stackStats.Reputation) + `</text>`
 	return svg
 }
 
@@ -57,7 +57,7 @@ func generateBadge(id string, xPos, yPos, count, fontSize int, color string) (sv
 	const radius = 3
 
 	svg += `<circle text-anchor="middle" dominant-baseline="middle" cx="` + str(xPos) + `" cy="` + str(yPos) + `" r="` + str(radius) + `" fill="` + color + `"/>`
-	svg += `<text data-testBadge` + id + `="` + str(count) + `" x="` + str(xPos+gap) + `" y="` + str(yPos) + `" font-size="` + str(fontSize) + `" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="` + color + `">` + formatNumber(count) + `</text>`
+	svg += `<text data-testBadge` + id + `="` + formatNumberWithComma(count) + `" x="` + str(xPos+gap) + `" y="` + str(yPos) + `" font-size="` + str(fontSize) + `" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="` + color + `">` + formatNumberWithComma(count) + `</text>`
 
 	return svg
 
