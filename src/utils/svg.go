@@ -2,6 +2,7 @@ package utils
 
 import (
 	"stats/src/structs"
+	"strings"
 )
 
 func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
@@ -43,9 +44,13 @@ func displayReputation(stackStats structs.Stats, theme structs.Theme, height int
 
 func generateImage(stackStats structs.Stats) (svg string) {
 	if stackStats.ImageUrl != "" {
-		svg += ` <image data-testImageUrl="` + stackStats.ImageUrl + `" x="16" y="10" href="` + stackStats.ImageUrl + `" height="24" width="24"/>`
+		svg += ` <image data-testImageUrl="` + escapeUrl(stackStats.ImageUrl) + `" x="16" y="10" href="` + escapeUrl(stackStats.ImageUrl) + `" height="24" width="24"/>`
 	}
 	return svg
+}
+
+func escapeUrl(url string) string {
+	return strings.Replace(url, "&", "&amp;", -1)
 }
 
 func generateBadge(id string, xPos, yPos, count, fontSize int, color string) (svg string) {
