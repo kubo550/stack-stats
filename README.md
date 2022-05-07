@@ -3,7 +3,6 @@
 ## Overview
 
 ![stack stats](https://stack-stats.herokuapp.com/stats?id=14513625)
-<img src="https://stack-stats.herokuapp.com/stats?id=14513625" alt="stack overflow profile stats" />
 
 <img src="https://stack-stats.herokuapp.com/stats?id=5798347" alt="asda" />
 
