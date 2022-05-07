@@ -4,7 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"os"
-	"stats/src/consoleLog"
+	"stats/src/log"
 	"stats/src/middleware"
 	"stats/src/routes"
 )
@@ -30,7 +30,7 @@ func main() {
 	err := app.Listen(":" + port)
 
 	if err != nil {
-		consoleLog.Error(err)
+		log.Error(err)
 		panic(err)
 	}
 }

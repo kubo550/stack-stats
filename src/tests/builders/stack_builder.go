@@ -14,7 +14,7 @@ func NewStackResponseBuilder() structs.StackResponseBuilder {
 			Silver: 2,
 			Gold:   3,
 		},
-		imgUrl: "https:image.com",
+		imgUrl: "",
 	}
 }
 

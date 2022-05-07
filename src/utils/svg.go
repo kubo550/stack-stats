@@ -2,10 +2,9 @@ package utils
 
 import (
 	"stats/src/structs"
-	"strings"
 )
 
-func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
+func GenerateSVG(stackStats structs.Stats, theme structs.Theme) (string, error) {
 	const width = 158
 	const height = 47
 	const fontSize = 12
@@ -18,8 +17,14 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 	svg += `<rect width="` + str(width) + `" height="` + str(height) + `" fill="` + theme.BgColor + `"/>`
 
 	// Profile image
-	svg += generateImage(stackStats)
 
+	if stackStats.ImageUrl != "" {
+		imageBase64, err := ImageToBase64(stackStats.ImageUrl)
+		if err != nil {
+			return "", err
+		}
+		svg += generateImage(imageBase64)
+	}
 	// Reputation
 	svg += displayReputation(stackStats, theme, height, fontSize)
 
@@ -34,7 +39,7 @@ func GenerateSVG(stackStats structs.Stats, theme structs.Theme) string {
 
 	svg += `</svg>`
 
-	return svg
+	return svg, nil
 }
 
 func displayReputation(stackStats structs.Stats, theme structs.Theme, height int, fontSize int) string {
@@ -42,15 +47,11 @@ func displayReputation(stackStats structs.Stats, theme structs.Theme, height int
 	return svg
 }
 
-func generateImage(stackStats structs.Stats) (svg string) {
-	if stackStats.ImageUrl != "" {
-		svg += ` <image data-testImageUrl="` + escapeUrl(stackStats.ImageUrl) + `" x="16" y="10" href="` + escapeUrl(stackStats.ImageUrl) + `" height="24" width="24"/>`
-	}
-	return svg
-}
+func generateImage(imageBase64 string) (svg string) {
+	fullImage := "data:image/png;base64," + imageBase64
+	svg = ` <image data-testImageUrl="` + fullImage + `" x="16" y="10" href="` + fullImage + `" height="24" width="24"/>`
 
-func escapeUrl(url string) string {
-	return strings.Replace(url, "&", "&amp;", -1)
+	return svg
 }
 
 func generateBadge(id string, xPos, yPos, count, fontSize int, color string) (svg string) {

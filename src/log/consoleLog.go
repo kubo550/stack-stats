@@ -1,4 +1,4 @@
-package consoleLog
+package log
 
 import (
 	"fmt"

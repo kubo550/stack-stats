@@ -93,27 +93,6 @@ func TestStatsRoute(t *testing.T) {
 		assert.Contains(t, string(body), "data-testBadgeBronze=\"6\"")
 	})
 
-	t.Run("should response body contain image URL", func(t *testing.T) {
-		stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123").Build())
-
-		req := httptest.NewRequest("GET", "/stats?id=1", nil)
-		resp, _ := app.Test(req)
-
-		body, _ := ioutil.ReadAll(resp.Body)
-		assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123\"")
-	})
-
-	t.Run("should image URL be escaped", func(t *testing.T) {
-		stackExchangeWillRespondWith(fiber.StatusOK,
-			builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123?id=1&foo=1&bar=2").Build())
-
-		req := httptest.NewRequest("GET", "/stats?id=1", nil)
-		resp, _ := app.Test(req)
-
-		body, _ := ioutil.ReadAll(resp.Body)
-		assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123?id=1&amp;foo=1&amp;bar=2\"")
-	})
-
 	t.Run("should format reputation with comma when it is a more than 1000", func(t *testing.T) {
 		stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithReputation(1500).Build())
 
@@ -150,6 +129,29 @@ func TestStatsRoute(t *testing.T) {
 		assert.Contains(t, string(body), "data-testBadgeBronze=\"3,000\"")
 	})
 
+	// todo refactor image tests
+	//t.Run("should response body contain image URL", func(t *testing.T) {
+	//	stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123").Build())
+	//
+	//	req := httptest.NewRequest("GET", "/stats?id=1", nil)
+	//	resp, _ := app.Test(req)
+	//
+	//	body, _ := ioutil.ReadAll(resp.Body)
+	//	assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123\"")
+	//})
+
+	//t.Run("should image URL be escaped", func(t *testing.T) {
+	//	stackExchangeWillRespondWith(fiber.StatusOK,
+	//		builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123?id=1&foo=1&bar=2").Build())
+	//
+	//	req := httptest.NewRequest("GET", "/stats?id=1", nil)
+	//	resp, _ := app.Test(req)
+	//
+	//	body, _ := ioutil.ReadAll(resp.Body)
+	//	assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123?id=1&amp;foo=1&amp;bar=2\"")
+	//})
+
+	//	todo test error handling
 }
 
 func stackExchangeWillRespondWith(status int, response structs.StackResponse) {

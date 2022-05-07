@@ -2,10 +2,10 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"stats/src/consoleLog"
+	"stats/src/log"
 )
 
 func HealthHandler(c *fiber.Ctx) error {
-	consoleLog.Info("HealthHandler - Health check")
+	log.Info("HealthHandler - Health check")
 	return c.SendStatus(200)
 }
