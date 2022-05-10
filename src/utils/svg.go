@@ -49,7 +49,7 @@ func displayReputation(stackStats structs.Stats, theme structs.Theme, height int
 
 func generateImage(imageBase64 string) (svg string) {
 	fullImage := "data:image/png;base64," + imageBase64
-	svg = ` <image data-testImageUrl="` + fullImage + `" x="16" y="10" href="` + fullImage + `" height="24" width="24"/>`
+	svg = ` <image x="16" y="10" href="` + fullImage + `" height="24" width="24"/>`
 
 	return svg
 }
