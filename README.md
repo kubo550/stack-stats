@@ -30,6 +30,21 @@ In my case, I have a stack with id 14513625.
 ![stack stats](https://stack-stats.herokuapp.com/stats?id=14513625)
 ```
 
+## Why my stats are not updating?
+
+It is because GitHub uses a cache to store the data. The data is updated every 2 hours, but you can manually update the cache:
+
+Only you need to do is to right-click on the svg and select copy link location then type this command:
+
+
+```bash
+$ curl -X PURGE https://camo.githubusercontent.com/4d04abe0044d94fefcf9af2133223....
+> {"status": "ok", "id": "216-8675309-1008701"}
+
+```
+change the url to the one you want to purge.
+
+
 ## Tech Stack
 
 * ![golang](https://img.shields.io/badge/GO-05122A?style=flat&logo=go)&nbsp; v1.18
