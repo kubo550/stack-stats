@@ -31,6 +31,7 @@ func StatsHandler(c *fiber.Ctx) error {
 	}
 
 	c.Set(fiber.HeaderContentType, "image/svg+xml; charset=utf-8")
+	c.Set(fiber.HeaderCacheControl, "public, max-age=7200") // 2 hours
 
 	return c.SendString(svg)
 }

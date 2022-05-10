@@ -12,8 +12,6 @@ import (
 func main() {
 	app := fiber.New()
 
-	app.Use(middleware.MethodMiddleware())
-
 	app.Use(logger.New(logger.Config{
 		Format:     "${pid} ${status} - ${method} ${path}\n",
 		TimeFormat: "02-Jan-2006",
