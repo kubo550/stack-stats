@@ -7,6 +7,9 @@ import (
 
 func StatsMiddleware() func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
+		if c.Method() != "POST" {
+			return c.Next()
+		}
 		id := c.Query("id")
 		if id == "" {
 			log.Warning("StatsMiddleware - No id provided")
