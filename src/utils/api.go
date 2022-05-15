@@ -6,8 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
+	"stats/src/log"
 	"stats/src/structs"
 )
 
@@ -15,34 +15,39 @@ func GetStackStats(userId string) (structs.Stats, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest(fiber.MethodGet, getStackApiUrl(userId), nil)
 	if err != nil {
-		panic(err)
+		return structs.Stats{}, err
 	}
 
 	resp, err := client.Do(req)
 
+	if err != nil || resp.StatusCode != fiber.StatusOK {
+		return structs.Stats{}, fmt.Errorf("error getting stack stats")
+	}
+
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
+			log.Error(err)
 		}
 	}(resp.Body)
 
 	if err != nil {
-		panic(err)
+		return structs.Stats{}, err
 	}
 
 	responseBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		return structs.Stats{}, err
 	}
 
 	var stackStats structs.StackStats
-	err = json.Unmarshal(responseBody, &stackStats)
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	// todo parse image url
+	err = json.Unmarshal(responseBody, &stackStats)
+
+	if err != nil {
+		log.Error(err)
+		return structs.Stats{}, err
+	}
 
 	return structs.Stats{
 		ID:         userId,

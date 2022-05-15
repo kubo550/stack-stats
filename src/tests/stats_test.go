@@ -119,8 +119,8 @@ func TestStatsRoute(t *testing.T) {
 			Silver: 2000,
 			Bronze: 3000,
 		}).Build())
-
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
+
 		resp, _ := app.Test(req)
 
 		body, _ := ioutil.ReadAll(resp.Body)
@@ -129,29 +129,16 @@ func TestStatsRoute(t *testing.T) {
 		assert.Contains(t, string(body), "data-testBadgeBronze=\"3,000\"")
 	})
 
-	// todo refactor image tests
-	//t.Run("should response body contain image URL", func(t *testing.T) {
-	//	stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123").Build())
-	//
-	//	req := httptest.NewRequest("GET", "/stats?id=1", nil)
-	//	resp, _ := app.Test(req)
-	//
-	//	body, _ := ioutil.ReadAll(resp.Body)
-	//	assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123\"")
-	//})
+	t.Run("should return 500 when stackExchange returns 404", func(t *testing.T) {
+		stackExchangeWillRespondWith(fiber.StatusNotFound, builders.NewStackResponseBuilder().Build())
+		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 
-	//t.Run("should image URL be escaped", func(t *testing.T) {
-	//	stackExchangeWillRespondWith(fiber.StatusOK,
-	//		builders.NewStackResponseBuilder().WithImageUrl("https://www.gravatar.com/avatar/123?id=1&foo=1&bar=2").Build())
-	//
-	//	req := httptest.NewRequest("GET", "/stats?id=1", nil)
-	//	resp, _ := app.Test(req)
-	//
-	//	body, _ := ioutil.ReadAll(resp.Body)
-	//	assert.Contains(t, string(body), "data-testImageUrl=\"https://www.gravatar.com/avatar/123?id=1&amp;foo=1&amp;bar=2\"")
-	//})
+		resp, _ := app.Test(req)
 
-	//	todo test error handling
+		assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode)
+	})
+
+	//	TODOl test profile image
 }
 
 func stackExchangeWillRespondWith(status int, response structs.StackResponse) {
