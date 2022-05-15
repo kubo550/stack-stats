@@ -130,7 +130,7 @@ func TestStatsRoute(t *testing.T) {
 	})
 
 	t.Run("should return 500 when stackExchange returns 404", func(t *testing.T) {
-		stackExchangeWillRespondWith(fiber.StatusNotFound, builders.NewStackResponseBuilder().Build())
+		stackExchangeWillRespondWith(fiber.StatusNotFound)
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 
 		resp, _ := app.Test(req)
@@ -138,10 +138,10 @@ func TestStatsRoute(t *testing.T) {
 		assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode)
 	})
 
-	//	TODOl test profile image
+	//	TODO: test profile image
 }
 
-func stackExchangeWillRespondWith(status int, response structs.StackResponse) {
+func stackExchangeWillRespondWith(status int, response ...structs.StackResponse) {
 	stackOverflowApiUrl := "https://api.stackexchange.com"
 	gock.New(stackOverflowApiUrl).
 		Get("/2.3/users/*").
