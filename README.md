@@ -1,4 +1,29 @@
-# Stack Overflow Stats SVG Generator
+<div align="center">
+  <a href="https://github.com/kubo550/stack-stats">
+    ![stack-stats-logo](https://user-images.githubusercontent.com/43968748/168917115-9587fc8f-2648-43da-b10f-39743f78295e.png)
+  </a>
+
+  
+  <h2 align="center">Stack Overflow Stats SVG Generator</h3>
+
+  <p align="center">
+     Dynamically generated stack overflow stats for your github readmes
+    <br />
+  </p>
+</div>
+
+
+<div align="center">
+
+<a href="https://github.com/kubo550/stack-stats/stargazers"><img src="https://img.shields.io/github/stars/kubo550/stack-stats" alt="Stars Badge"/></a>
+<a href="https://github.com/kubo550/stack-stats/network/members"><img src="https://img.shields.io/github/forks/kubo550/stack-stats" alt="Forks Badge"/></a>
+<a href="https://github.com/kubo550/stack-stats/pulls"><img src="https://img.shields.io/github/issues-pr/kubo550/stack-stats" alt="Pull Requests Badge"/></a>
+<a href="https://github.com/kubo550/stack-stats/issues"><img src="https://img.shields.io/github/issues/kubo550/stack-stats" alt="Issues Badge"/></a>
+<a href="https://github.com/kubo550/stack-stats/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/kubo550/stack-stats?color=2b9348"></a>
+<a href="https://github.com/kubo550/stack-stats/blob/master/LICENSE"><img src="https://img.shields.io/github/license/kubo550/stack-stats?color=2b9348" alt="License Badge"/></a>
+
+</div>
+
 
 ## Overview
 
