@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/kubo550/stack-stats">
-    ![stack-stats-logo](https://user-images.githubusercontent.com/43968748/168917115-9587fc8f-2648-43da-b10f-39743f78295e.png)
+     <img src="https://user-images.githubusercontent.com/43968748/168917115-9587fc8f-2648-43da-b10f-39743f78295e.png" alt="stack stats logo" />
   </a>
 
   
