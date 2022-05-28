@@ -4,7 +4,7 @@
   </a>
 
   
-  <h2 align="center">Stack Overflow Stats SVG Generator</h3>
+  <h2 align="center">Stack Overflow Stats SVG Generator</h2>
 
   <p align="center">
      Dynamically generated stack overflow stats for your github readmes
@@ -27,11 +27,32 @@
 
 ## Overview
 
+<!-- HERE YOU GO!  -->
+
 <img src="https://stack-stats.herokuapp.com/stats?id=123" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=5798347" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=10739437" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=15284154" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=6904888" alt="stack stats" />&nbsp;
+<img src="https://stack-stats.herokuapp.com/stats?id=1234" alt="stack stats" />&nbsp;
+<img src="https://stack-stats.herokuapp.com/stats?id=1233" alt="stack stats" />&nbsp;
+<img src="https://stack-stats.herokuapp.com/stats?id=1252" alt="stack stats" />&nbsp;
+
+## How do I use it?
+
+The only thing you need to do is to add the following code to your page:
+
+```md
+![stack stats](https://stack-stats.herokuapp.com/stats?id=<id>)
+```
+
+Important note: the `id` is the id of the stack you want to display.
+
+In my case, I have a stack with id 14513625.
+
+```md
+![stack stats](https://stack-stats.herokuapp.com/stats?id=14513625)
+```
 
 
 Also, you can wrap the above in an anchor tag to make it easier to move on to your stack profile:
@@ -49,24 +70,6 @@ Also, you can wrap the above in an anchor tag to make it easier to move on to yo
 
 
 
-## What is this?
-
-
-## How do I use it?
-
-The only thing you need to do is to add the following code to your page:
-
-```md
-![stack stats](https://stack-stats.herokuapp.com/stats?id=<id>)
-```
-
-Important note: the `id` is the id of the stack you want to display.
-
-In my case, I have a stack with id 14513625.
-
-```md
-![stack stats](https://stack-stats.herokuapp.com/stats?id=14513625)
-```
 
 ## Why my stats are not updating?
 
