@@ -30,9 +30,8 @@ func TestStatsRoute(t *testing.T) {
 	t.Run("should return 400 when id is missing", func(t *testing.T) {
 		req := httptest.NewRequest("GET", "/stats", nil)
 
-		resp, err := app.Test(req)
+		resp, _ := app.Test(req)
 
-		assert.NoError(t, err)
 		assert.Equal(t, fiber.StatusBadRequest, resp.StatusCode)
 	})
 
@@ -53,7 +52,7 @@ func TestStatsRoute(t *testing.T) {
 
 		body, err := ioutil.ReadAll(resp.Body)
 		assert.NoError(t, err)
-		assert.Contains(t, string(body), "<svg data-testUserId=\"-1\" width=\"158\" height=\"47\" viewBox=\"0 0 158 47\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">")
+		assert.Contains(t, string(body), "fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">")
 	})
 
 	t.Run("should response body contain userId", func(t *testing.T) {
@@ -138,7 +137,16 @@ func TestStatsRoute(t *testing.T) {
 		assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode)
 	})
 
-	//TODO: test profile image
+	t.Run("should generate svg with correct height", func(t *testing.T) {
+		stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().Build())
+		req := httptest.NewRequest("GET", "/stats?id=1", nil)
+
+		resp, _ := app.Test(req)
+
+		body, _ := ioutil.ReadAll(resp.Body)
+		assert.Contains(t, string(body), "height=\"47\"")
+	})
+
 }
 
 func stackExchangeWillRespondWith(status int, response structs.StackResponse) {

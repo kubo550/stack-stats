@@ -4,62 +4,83 @@ import (
 	"stats/src/structs"
 )
 
-func GenerateSVG(stackStats structs.Stats, theme structs.Theme) (string, error) {
-	const width = 158
+func GenerateSVG(stackStats structs.Stats, theme structs.Theme) (svg string, error error) {
 	const height = 47
 	const fontSize = 12
-	const badgeStartPosPx = 90
-	const badgesGap = 22
+	const badgesGap = 18
+	const outerPadding = 12
+	const innerPadding = 6
+	const imageSize = 24
 
-	var svg string
+	width := calcWidth(stackStats.Reputation, stackStats.Gold, stackStats.Silver, stackStats.Bronze, badgesGap)
 
 	svg += `<svg data-testUserId="` + stackStats.ID + `" width="` + str(width) + `" height="` + str(height) + `" viewBox="0 0 ` + str(width) + ` ` + str(height) + `" fill="none" xmlns="http://www.w3.org/2000/svg">`
 	svg += `<rect width="` + str(width) + `" height="` + str(height) + `" fill="` + theme.BgColor + `"/>`
-
-	// Profile image
 
 	if stackStats.ImageUrl != "" {
 		imageBase64, err := ImageToBase64(stackStats.ImageUrl)
 		if err != nil {
 			return "", err
 		}
-		svg += generateImage(imageBase64)
+		svg += generateImage(imageBase64, outerPadding, imageSize)
 	}
-	// Reputation
-	svg += displayReputation(stackStats, theme, height, fontSize)
 
-	// Gold
-	svg += generateBadge("Gold", badgeStartPosPx, height/2, stackStats.Gold, fontSize, theme.Gold)
+	svg += displayReputation(outerPadding+imageSize+innerPadding+18, stackStats, theme, height, fontSize)
 
-	// Silver
-	svg += generateBadge("Silver", badgeStartPosPx+badgesGap, height/2, stackStats.Silver, fontSize, theme.Silver)
+	badgeXPos := outerPadding + imageSize + innerPadding*2 + calcReputationWidth(stackStats.Reputation) + innerPadding*2
+	if stackStats.Gold > 0 {
+		svg += generateBadge("Gold", badgeXPos, height/2, stackStats.Gold, fontSize, theme.Gold)
+	}
 
-	// Bronze
-	svg += generateBadge("Bronze", badgeStartPosPx+2*badgesGap, height/2, stackStats.Bronze, fontSize, theme.Bronze)
+	if stackStats.Silver > 0 {
+		badgeXPos = badgeXPos + calcBadgeScoreGap(stackStats.Gold) + badgesGap
+		svg += generateBadge("Silver", badgeXPos, height/2, stackStats.Silver, fontSize, theme.Silver)
+	}
+
+	if stackStats.Bronze > 0 {
+		badgeXPos = badgeXPos + calcBadgeScoreGap(stackStats.Silver) + badgesGap
+		svg += generateBadge("Bronze", badgeXPos, height/2, stackStats.Bronze, fontSize, theme.Bronze)
+	}
 
 	svg += `</svg>`
 
 	return svg, nil
 }
 
-func displayReputation(stackStats structs.Stats, theme structs.Theme, height int, fontSize int) string {
-	svg := `<text data-testReputation="` + formatNumberWithComma(stackStats.Reputation) + `"  x="` + str(64) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumberWithComma(stackStats.Reputation) + `</text>`
+func calcWidth(reputation, gold, silver, bronze, badgesGap int) int {
+	minWidth := 83
+	scaler := 0.5
+	for _, b := range [...]int{gold, silver, bronze} {
+		if b > 0 {
+
+			minWidth += calcBadgeScoreGap(b) + scale(calcBadgeScoreGap(b), scaler) + scale(badgesGap, scaler)
+		}
+	}
+	width := minWidth + calcReputationWidth(reputation)
+
+	return width
+
+}
+
+func scale(value int, factor float64) int {
+	return int(float64(value) * factor)
+}
+
+func displayReputation(xPos int, stackStats structs.Stats, theme structs.Theme, height int, fontSize int) string {
+	svg := `<text data-testReputation="` + formatNumberWithComma(stackStats.Reputation) + `"  x="` + str(xPos) + `" y="` + str(height/2) + `" font-weight="bold" fill="` + theme.TextColor + `" font-family="Arial" font-size="` + str(fontSize) + `" text-anchor="middle" dominant-baseline="middle">` + formatNumberWithComma(stackStats.Reputation) + `</text>`
 	return svg
 }
 
-func generateImage(imageBase64 string) (svg string) {
+func generateImage(imageBase64 string, xPos, size int) (svg string) {
 	fullImage := "data:image/png;base64," + imageBase64
-	svg = ` <image x="16" y="10" href="` + fullImage + `" height="24" width="24"/>`
+	svg = ` <image x=" ` + str(xPos) + `" y="10" href="` + fullImage + `" height="` + str(size) + `" width="` + str(size) + `"/>`
 
 	return svg
 }
 
 func generateBadge(id string, xPos, yPos, count, fontSize int, color string) (svg string) {
-	if count == 0 {
-		return svg
-	}
 
-	gap := calculateGap(count)
+	gap := calcBadgeScoreGap(count)
 	const radius = 3
 
 	svg += `<circle text-anchor="middle" dominant-baseline="middle" cx="` + str(xPos) + `" cy="` + str(yPos) + `" r="` + str(radius) + `" fill="` + color + `"/>`
@@ -69,14 +90,25 @@ func generateBadge(id string, xPos, yPos, count, fontSize int, color string) (sv
 
 }
 
-func calculateGap(count int) int {
-	var gap = 10
-	if count > 10 {
-		gap = 12
-	} else if count > 100 {
-		gap = 14
-	} else if count > 1000 {
-		gap = 16
+func calcBadgeScoreGap(count int) int {
+	if count == 0 {
+		return 0
+	} else if count < 10 {
+		return 9
+	} else if count < 100 {
+		return 14
+	} else if count < 1000 {
+		return 16
 	}
-	return gap
+	return 18
+}
+func calcReputationWidth(reputation int) int {
+	if reputation < 10 {
+		return 7
+	} else if reputation < 100 {
+		return 12
+	} else if reputation < 1000 {
+		return 20
+	}
+	return 33
 }
