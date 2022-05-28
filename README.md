@@ -27,11 +27,24 @@
 
 ## Overview
 
-<img src="https://stack-stats.herokuapp.com/stats?id=14513625" alt="stack stats" />&nbsp;
+<img src="https://stack-stats.herokuapp.com/stats?id=123" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=5798347" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=10739437" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=15284154" alt="stack stats" />&nbsp;
 <img src="https://stack-stats.herokuapp.com/stats?id=6904888" alt="stack stats" />&nbsp;
+
+
+Also, you can wrap the above in an anchor tag to make it easier to move on to your stack profile:
+
+```
+<a href="https://stack-stats.herokuapp.com/stats?id=14513625" target="_blank" rel="noopener noreferrer">
+    <img src="https://stack-stats.herokuapp.com/stats?id=14513625" alt="stack stats" />&nbsp;
+</a>
+```
+
+<a href="https://stackoverflow.com/users/14513625/jakub-kurdziel" target="_blank" rel="noopener noreferrer" title="My Stack Overflow Profile">
+    <img src="https://stack-stats.herokuapp.com/stats?id=14513625" alt="stack stats" />
+</a>
 
 
 

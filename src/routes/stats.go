@@ -16,7 +16,7 @@ func StatsHandler(c *fiber.Ctx) error {
 
 	if err != nil {
 		log.Error(err)
-		return c.SendStatus(500)
+		return c.SendStatus(fiber.StatusNotFound)
 	}
 
 	fmt.Println("Stack stats:", stackStats)
@@ -27,7 +27,7 @@ func StatsHandler(c *fiber.Ctx) error {
 
 	if err != nil {
 		log.Error(err)
-		return c.SendStatus(500)
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
 	c.Set(fiber.HeaderContentType, "image/svg+xml; charset=utf-8")

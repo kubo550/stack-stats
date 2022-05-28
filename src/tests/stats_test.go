@@ -128,13 +128,13 @@ func TestStatsRoute(t *testing.T) {
 		assert.Contains(t, string(body), "data-testBadgeBronze=\"3,000\"")
 	})
 
-	t.Run("should return 500 when stackExchange returns 404", func(t *testing.T) {
+	t.Run("should return 404 when stackExchange returns 404", func(t *testing.T) {
 		stackExchangeWillRespondWith(fiber.StatusNotFound, builders.NewStackResponseBuilder().Build())
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 
 		resp, _ := app.Test(req)
 
-		assert.Equal(t, fiber.StatusInternalServerError, resp.StatusCode)
+		assert.Equal(t, fiber.StatusNotFound, resp.StatusCode)
 	})
 
 	t.Run("should generate svg with correct height", func(t *testing.T) {
