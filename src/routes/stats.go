@@ -30,8 +30,10 @@ func StatsHandler(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
+	cacheAge := 3600 * 24
+
 	c.Set(fiber.HeaderContentType, "image/svg+xml; charset=utf-8")
-	c.Set(fiber.HeaderCacheControl, "public, max-age=7200") // 2 hours
+	c.Set(fiber.HeaderCacheControl, "public, max-age="+fmt.Sprintf("%d", cacheAge))
 
 	return c.SendString(svg)
 }

@@ -49,8 +49,8 @@ func TestStatsRoute(t *testing.T) {
 		req := httptest.NewRequest("GET", "/stats?id=-1", nil)
 
 		resp, _ := app.Test(req)
-
 		body, err := ioutil.ReadAll(resp.Body)
+
 		assert.NoError(t, err)
 		assert.Contains(t, string(body), "fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">")
 	})
@@ -58,21 +58,21 @@ func TestStatsRoute(t *testing.T) {
 	t.Run("should response body contain userId", func(t *testing.T) {
 		stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().Build())
 		userId := "14513625"
-
 		req := httptest.NewRequest("GET", "/stats?id="+userId, nil)
-		resp, _ := app.Test(req)
 
+		resp, _ := app.Test(req)
 		body, _ := ioutil.ReadAll(resp.Body)
+
 		assert.Contains(t, string(body), "data-testUserId=\""+userId+"\"")
 	})
 
 	t.Run("should response body contain reputation", func(t *testing.T) {
 		stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithReputation(100).Build())
-
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
-		resp, _ := app.Test(req)
 
+		resp, _ := app.Test(req)
 		body, _ := ioutil.ReadAll(resp.Body)
+
 		assert.Contains(t, string(body), "data-testReputation=\"100\"")
 	})
 
@@ -82,11 +82,11 @@ func TestStatsRoute(t *testing.T) {
 			Silver: 4,
 			Bronze: 6,
 		}).Build())
-
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
-		resp, _ := app.Test(req)
 
+		resp, _ := app.Test(req)
 		body, _ := ioutil.ReadAll(resp.Body)
+
 		assert.Contains(t, string(body), "data-testBadgeGold=\"2\"")
 		assert.Contains(t, string(body), "data-testBadgeSilver=\"4\"")
 		assert.Contains(t, string(body), "data-testBadgeBronze=\"6\"")
@@ -94,21 +94,21 @@ func TestStatsRoute(t *testing.T) {
 
 	t.Run("should format reputation with comma when it is a more than 1000", func(t *testing.T) {
 		stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithReputation(1500).Build())
-
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
-		resp, _ := app.Test(req)
 
+		resp, _ := app.Test(req)
 		body, _ := ioutil.ReadAll(resp.Body)
+
 		assert.Contains(t, string(body), "data-testReputation=\"1,500\"")
 	})
 
 	t.Run("should format reputation when it is a more than 10 000", func(t *testing.T) {
 		stackExchangeWillRespondWith(fiber.StatusOK, builders.NewStackResponseBuilder().WithReputation(26500).Build())
-
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
-		resp, _ := app.Test(req)
 
+		resp, _ := app.Test(req)
 		body, _ := ioutil.ReadAll(resp.Body)
+
 		assert.Contains(t, string(body), "data-testReputation=\"26.5k\"")
 	})
 
@@ -121,8 +121,8 @@ func TestStatsRoute(t *testing.T) {
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 
 		resp, _ := app.Test(req)
-
 		body, _ := ioutil.ReadAll(resp.Body)
+
 		assert.Contains(t, string(body), "data-testBadgeGold=\"1,000\"")
 		assert.Contains(t, string(body), "data-testBadgeSilver=\"2,000\"")
 		assert.Contains(t, string(body), "data-testBadgeBronze=\"3,000\"")
@@ -142,8 +142,8 @@ func TestStatsRoute(t *testing.T) {
 		req := httptest.NewRequest("GET", "/stats?id=1", nil)
 
 		resp, _ := app.Test(req)
-
 		body, _ := ioutil.ReadAll(resp.Body)
+
 		assert.Contains(t, string(body), "height=\"47\"")
 	})
 
