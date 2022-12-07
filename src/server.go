@@ -24,7 +24,19 @@ func main() {
 	app.Use(middleware.StatsMiddleware())
 	app.Get("/stats", routes.StatsHandler)
 
-	port := os.Getenv("PORT")
+	var port string
+	var portFromTerminal string
+
+	if len(os.Args) > 1 {
+		portFromTerminal = os.Args[1]
+	}
+
+	if portFromTerminal != "" {
+		port = portFromTerminal
+	} else {
+		port = os.Getenv("PORT")
+	}
+
 	err := app.Listen(":" + port)
 
 	if err != nil {

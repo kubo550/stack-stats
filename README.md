@@ -86,6 +86,14 @@ $ curl -X PURGE https://camo.githubusercontent.com/4d04abe0044d94fefcf9af2133223
 change the url to the one you want to purge.
 
 
+## Run it locally
+
+To run it locally, you just need to run the following commands:
+
+```go
+go run ./src/server.go 8080
+```
+
 ## Tech Stack
 
 * ![golang](https://img.shields.io/badge/GO-05122A?style=flat&logo=go)&nbsp; v1.18
