@@ -73,7 +73,7 @@ func displayReputation(xPos int, stackStats structs.Stats, theme structs.Theme, 
 
 func generateImage(imageBase64 string, xPos, size int) (svg string) {
 	fullImage := "data:image/png;base64," + imageBase64
-	svg = ` <image x=" ` + str(xPos) + `" y="10" href="` + fullImage + `" height="` + str(size) + `" width="` + str(size) + `"/>`
+	svg = ` <image x=" ` + str(xPos) + `" y="10" href="` + fullImage + `" height="` + str(size) + `" width="` + str(size) + `" default-src="sha256-4Su6mBWzEIFnH4pAGMOuaeBrstwJN4Z3pq/s1Kn4/KQ=" />`
 
 	return svg
 }
