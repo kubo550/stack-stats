@@ -34,6 +34,6 @@ func StatsHandler(c *fiber.Ctx) error {
 
 	c.Set(fiber.HeaderContentType, "image/svg+xml; charset=utf-8")
 	c.Set(fiber.HeaderCacheControl, "public, max-age="+fmt.Sprintf("%d", cacheAge))
-
+	c.Set(fiber.HeaderContentSecurityPolicy, "default-src 'none'; style-src 'unsafe-inline'; img-src data:;")
 	return c.SendString(svg)
 }
