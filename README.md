@@ -1,3 +1,5 @@
+# This project is no longer maintained. Please use [StackStats](https://github.com/kubo550/edge-functions/blob/main/supabase/functions/stack-stats/README.md)
+
 <div align="center">
   <a href="https://github.com/kubo550/stack-stats">
      <img src="https://user-images.githubusercontent.com/43968748/168917115-9587fc8f-2648-43da-b10f-39743f78295e.png" alt="stack stats logo" />
